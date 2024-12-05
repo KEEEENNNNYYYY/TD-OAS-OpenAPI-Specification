@@ -1,0 +1,261 @@
+openapi: 3.1.0
+info:
+  title: Student Management
+  description: This a Student management API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/hei.kenny.30904/Student_Management/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://Student_management.swagger.io/
+tags:
+- name: group
+  description: Everything about groups 
+  externalDocs:
+    description: Don't know what a group is?
+    url: https://en.wikipedia.org/wiki/group
+- name: student
+  description: here lay information about groups student
+paths:
+  /groups:
+    get:
+      tags:
+      - group
+      summary: Get groups based on query parameters
+      operationId: getgroups
+      parameters:
+      - name: beginning Date
+        in: query
+        description: The start date of the year
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          pattern : YYYY
+          example: 2022
+      - name: end date
+        in: query
+        description: The end date of the year
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          pattern : YYYY 
+          example: 2023
+      - name: group Name
+        in: query
+        description: The name of the group we are looking for
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: group name
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+        "404":
+          description: No groups found matching the query parameters
+    put:
+      tags:
+      - group
+      summary: Update an existing group
+      parameters:
+        - name : groupeID
+          in : query
+          description : groupe that will be updated
+          schema :
+            type: string
+            pattern : YYYY
+            example: 1
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+        required: true
+      responses:
+        "200":
+          description: group updated successfully
+    post:
+      tags:
+      - group
+      summary: Add a new group
+      operationId: addgroup
+      requestBody:
+        description: group object that needs to be added
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Group'
+        required: true
+      responses:
+        "200":
+          description: Successfully added
+        "405":
+          description: Invalid input
+    delete:
+      tags:
+      - group
+      summary: Delete a group by ID
+      parameters:
+      - name: id
+        in: query
+        description: ID of the group to delete
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: group deleted successfully
+  /students:
+    get:
+      tags:
+      - student
+      summary: Get a list of students
+      parameters:
+      - name: student name
+        in: query
+        description: Filter by student name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A list of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        "404": 
+          description: No student found
+        
+    put:
+      tags:
+      - student
+      summary: Update an existing student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        "200":
+          description: student updated successfully
+    post:
+      tags:
+      - student
+      summary: Add a new student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        "201":
+          description: student created successfully
+    delete:
+      tags:
+      - student
+      summary: Delete an student by ID
+      parameters:
+      - name: id
+        in: query
+        description: ID of the student to delete
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: student deleted successfully
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the group
+        groupName:
+          type: string
+          description: The name of the group
+        groupYear : 
+          type : string 
+          description: year of the groupe
+          pattern: YYYY
+        promotion :
+          type : string
+          description: initial of the group promotion
+          enum:
+            - K
+            - J
+            - H
+            - G
+        students:
+          type: string
+          description: List of the student in the group
+        studentNb:
+          type: integer
+          description: The number of student in the group
+
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the student
+        name:
+          type: string
+          description: The name of the student
+        sex:
+          type: string
+          description: The sex of the student
+          enum:
+          - M
+          - F
+        birthdate : 
+          type: string
+          description: birthday of the student
+          format: date
+          pattern: YYYY-MM-DD
+        reference :
+          type : string
+          description: this is the reference of the student 
+          pattern: STDxxxxx
+        group :
+          type : string
+          description: name of the group the student belong to
+    inline_response_200:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: group Name
+        releaseDate:
+          type: string
+          pattern : YYYY 
+          example: 2023-03-15
