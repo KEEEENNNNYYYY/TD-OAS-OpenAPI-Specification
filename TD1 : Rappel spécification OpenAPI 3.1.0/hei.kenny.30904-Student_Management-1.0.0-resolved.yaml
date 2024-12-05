@@ -1,60 +1,60 @@
 openapi: 3.1.0
 info:
   title: Student Management
-  description: This a Student management API
+  description: This is a Student management API
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/hei.kenny.30904/Student_Management/1.0.0
-  description: SwaggerHub API Auto Mocking
-- url: https://Student_management.swagger.io/
+  - url: https://virtserver.swaggerhub.com/hei.kenny.30904/Student_Management/1.0.0
+    description: SwaggerHub API Auto Mocking
+  - url: https://Student_management.swagger.io/
 tags:
-- name: group
-  description: Everything about groups 
-  externalDocs:
-    description: Don't know what a group is?
-    url: https://en.wikipedia.org/wiki/group
-- name: student
-  description: here lay information about groups student
+  - name: group
+    description: Everything about groups
+    externalDocs:
+      description: Don't know what a group is?
+      url: https://en.wikipedia.org/wiki/group
+  - name: student
+    description: Information about student groups
 paths:
   /groups:
     get:
       tags:
-      - group
+        - group
       summary: Get groups based on query parameters
-      operationId: getgroups
+      operationId: getGroups
       parameters:
-      - name: beginning Date
-        in: query
-        description: The start date of the year
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          pattern : YYYY
-          example: 2022
-      - name: end date
-        in: query
-        description: The end date of the year
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          pattern : YYYY 
-          example: 2023
-      - name: group Name
-        in: query
-        description: The name of the group we are looking for
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
-          example: group name
+        - name: beginningDate
+          in: query
+          description: The start date of the year
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            pattern: "YYYY"
+            example: "2022"
+        - name: endDate
+          in: query
+          description: The end date of the year
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            pattern: "YYYY"
+            example: "2023"
+        - name: groupName
+          in: query
+          description: The name of the group we are looking for
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: "groupName"
       responses:
         "200":
           description: Successful operation
@@ -63,42 +63,42 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inline_response_200'
+                  $ref: "#/components/schemas/inline_response_200"
         "404":
           description: No groups found matching the query parameters
     put:
       tags:
-      - group
+        - group
       summary: Update an existing group
       parameters:
-        - name : groupeID
-          in : query
-          description : groupe that will be updated
-          schema :
-            type: string
-            pattern : YYYY
-            example: 1
+        - name: groupID
+          in: query
+          description: The group that will be updated
           required: true
+          schema:
+            type: string
+            pattern: "YYYY"
+            example: "1"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Group'
+              $ref: "#/components/schemas/Group"
         required: true
       responses:
         "200":
-          description: group updated successfully
+          description: Group updated successfully
     post:
       tags:
-      - group
+        - group
       summary: Add a new group
-      operationId: addgroup
+      operationId: addGroup
       requestBody:
-        description: group object that needs to be added
+        description: Group object that needs to be added
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Group'
+              $ref: "#/components/schemas/Group"
         required: true
       responses:
         "200":
@@ -107,34 +107,34 @@ paths:
           description: Invalid input
     delete:
       tags:
-      - group
+        - group
       summary: Delete a group by ID
       parameters:
-      - name: id
-        in: query
-        description: ID of the group to delete
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
+        - name: id
+          in: query
+          description: ID of the group to delete
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: integer
       responses:
         "204":
-          description: group deleted successfully
+          description: Group deleted successfully
   /students:
     get:
       tags:
-      - student
+        - student
       summary: Get a list of students
       parameters:
-      - name: student name
-        in: query
-        description: Filter by student name
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
+        - name: studentName
+          in: query
+          description: Filter by student name
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
       responses:
         "200":
           description: A list of students
@@ -143,52 +143,51 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Student'
-        "404": 
+                  $ref: "#/components/schemas/Student"
+        "404":
           description: No student found
-        
     put:
       tags:
-      - student
+        - student
       summary: Update an existing student
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: "#/components/schemas/Student"
         required: true
       responses:
         "200":
-          description: student updated successfully
+          description: Student updated successfully
     post:
       tags:
-      - student
+        - student
       summary: Add a new student
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Student'
+              $ref: "#/components/schemas/Student"
         required: true
       responses:
         "201":
-          description: student created successfully
+          description: Student created successfully
     delete:
       tags:
-      - student
-      summary: Delete an student by ID
+        - student
+      summary: Delete a student by ID
       parameters:
-      - name: id
-        in: query
-        description: ID of the student to delete
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: integer
+        - name: id
+          in: query
+          description: ID of the student to delete
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: integer
       responses:
         "204":
-          description: student deleted successfully
+          description: Student deleted successfully
 components:
   schemas:
     Group:
@@ -200,25 +199,26 @@ components:
         groupName:
           type: string
           description: The name of the group
-        groupYear : 
-          type : string 
-          description: year of the groupe
-          pattern: YYYY
-        promotion :
-          type : string
-          description: initial of the group promotion
+        groupYear:
+          type: string
+          description: Year of the group
+          pattern: "YYYY"
+        promotion:
+          type: string
+          description: Initials of the group promotion
           enum:
             - K
             - J
             - H
             - G
         students:
-          type: string
-          description: List of the student in the group
+          type: array
+          description: List of the students in the group
+          items:
+            type: string
         studentNb:
           type: integer
-          description: The number of student in the group
-
+          description: The number of students in the group
     Student:
       type: object
       properties:
@@ -232,20 +232,20 @@ components:
           type: string
           description: The sex of the student
           enum:
-          - M
-          - F
-        birthdate : 
+            - M
+            - F
+        birthdate:
           type: string
-          description: birthday of the student
+          description: Birthdate of the student
           format: date
-          pattern: YYYY-MM-DD
-        reference :
-          type : string
-          description: this is the reference of the student 
-          pattern: STDxxxxx
-        group :
-          type : string
-          description: name of the group the student belong to
+          pattern: "YYYY-MM-DD"
+        reference:
+          type: string
+          description: Reference of the student
+          pattern: "STDxxxxx"
+        group:
+          type: string
+          description: Name of the group the student belongs to
     inline_response_200:
       type: object
       properties:
@@ -254,8 +254,8 @@ components:
           example: 1
         name:
           type: string
-          example: group Name
+          example: "groupName"
         releaseDate:
           type: string
-          pattern : YYYY 
-          example: 2023-03-15
+          pattern: "YYYY"
+          example: "2023-03-15"
