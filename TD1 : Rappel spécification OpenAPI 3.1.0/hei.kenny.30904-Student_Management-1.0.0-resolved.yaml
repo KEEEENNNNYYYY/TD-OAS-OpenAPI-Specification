@@ -92,13 +92,14 @@ paths:
       tags:
         - group
       summary: Add a new group
-      operationId: addGroup
+      operationId: createGroup
       requestBody:
         description: Group object that needs to be added
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Group"
+              allOf:
+                $ref: "#/components/schemas/Group"
         required: true
       responses:
         "200":
@@ -156,6 +157,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Student"
         required: true
+      
       responses:
         "200":
           description: Student updated successfully
@@ -167,7 +169,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Student"
+              allOf:
+                $ref: "#/components/schemas/Student"
         required: true
       responses:
         "201":
@@ -188,6 +191,69 @@ paths:
       responses:
         "204":
           description: Student deleted successfully
+  /students/{studentId}/group : 
+    put:
+    - tags: Student
+      summary: will alter one student of a given group
+      parameters:
+        - name : studentId
+          in : path
+          description: id of the student that we will alter
+          required: true
+          schema:
+            type: string
+            example: "1"
+        - name : group
+          in : requestParam
+          description: id of the group the student belong to 
+          required : true
+          schema: 
+            type : string
+            example: G1
+            content:
+              application/json:
+               schema : 
+                $ref :'#/components/schemas/Student'
+  /students/group : 
+    put:
+    - tags: Student
+      summary: will alter more than one student of a groupe at a time
+
+      parameters:
+      - name: group
+        in : requestParam
+        description: the id of group that the student belong to
+        required : true 
+        content:
+          application/json:
+            schema  : 
+              $ref  : "#/components/schemas/Student"
+  /students/{studentId}/groups/{groupId} : 
+  put : 
+   - tags: Student
+     summary: will alter a student from a given groupe id 
+     parameters : 
+      - name : studentId 
+        in: path
+        description: id of the student that we will alter
+        required : true
+      - name : groups 
+        in: query
+        description: the group the student belong to
+        required : true
+      - name : groupId
+        in: path
+        description: the id of the group the student belong to
+        required : true
+        content:
+          application/json:
+            schema: 
+              $ref : "#/components/schemas/Student"
+              responses:
+                "200":
+                  description: "patch successfully"
+
+
 components:
   schemas:
     Group:
@@ -215,7 +281,10 @@ components:
           type: array
           description: List of the students in the group
           items:
-            type: string
+            type: object
+            properties:
+              allOf:
+               $ref:"#/components/schemas/Student"
         studentNb:
           type: integer
           description: The number of students in the group
@@ -244,18 +313,8 @@ components:
           description: Reference of the student
           pattern: "STDxxxxx"
         group:
-          type: string
+          type: object
           description: Name of the group the student belongs to
-    inline_response_200:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: "groupName"
-        releaseDate:
-          type: string
-          pattern: "YYYY"
-          example: "2023-03-15"
+          properties:
+            allOf:
+              $ref : "#/components/schemas/Group"
