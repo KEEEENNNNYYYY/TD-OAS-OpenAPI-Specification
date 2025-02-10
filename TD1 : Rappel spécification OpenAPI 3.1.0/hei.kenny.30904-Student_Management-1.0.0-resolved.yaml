@@ -193,7 +193,7 @@ paths:
           description: Student deleted successfully
   /students/{studentId}/group : 
     put:
-    - tags: Student
+    - tags: student
       summary: will alter one student of a given group
       parameters:
         - name : studentId
@@ -215,19 +215,26 @@ paths:
                schema : 
                 $ref :'#/components/schemas/Student'
   /students/group : 
-    put:
+    put:    
     - tags: Student
+      operationId: updateStudentGroup 
       summary: will alter more than one student of a groupe at a time
-
       parameters:
       - name: group
         in : requestParam
         description: the id of group that the student belong to
         required : true 
+        requestBody:
         content:
           application/json:
             schema  : 
-              $ref  : "#/components/schemas/Student"
+              type: array
+              items:
+                $ref  : "#/components/schemas/Student"
+        responses : 
+        200 : 
+          "huh?"
+
   /students/{studentId}/groups/{groupId} : 
   put : 
    - tags: Student
