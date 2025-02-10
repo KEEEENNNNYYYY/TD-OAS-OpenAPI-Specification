@@ -319,9 +319,12 @@ components:
           type: string
           description: Reference of the student
           pattern: "STDxxxxx"
-        group:
-          type: object
+        groupId:
+          type: string
           description: Name of the group the student belongs to
-          properties:
-            allOf:
-              $ref : "#/components/schemas/Group"
+
+
+              # refactor : specification student groups lasa group id sype string 
+
+              # db : groups ao aminy table student lasa group id 
+              #  code : studet=nt === 
